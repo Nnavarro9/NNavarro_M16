@@ -1,0 +1,29 @@
+/* Estilo personalizado para el enlace del campo de entrada de archivo */
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+}
+
+/* Cambiar el estilo del enlace cuando se pasa el cursor sobre él */
+.custom-file-upload:hover {
+    background: #0056b3;
+}
+
+/* Cambiar el estilo del input[type="file"] para ocultar visualmente */
+.visually-hidden {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+/* Cambiar el color del texto cuando se pasa el ratón sobre la etiqueta */
+label.form-label:hover {
+    color: #FF0000; /* Cambia el color del texto a rojo cuando pasas el ratón sobre el label */
+}

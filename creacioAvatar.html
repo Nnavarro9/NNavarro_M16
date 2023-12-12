@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body  style="background-color: rgb(43, 144, 211)">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Generador d'Avatars</h1>
+                <div class="form-group">
+                    <label for="avatarColor">Color de fons:</label>
+                    <input type="color" id="avatarColor" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="avatarImage">Imatge d'avatar (URL):</label>
+                    <input type="text" id="avatarImage" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="generateAvatar">Generar Avatar</button>
+                <a href="registre.html" class="btn btn-primary" id="cracioAvatar">Tornar al Registre</a>
+            </div>
+            <div class="col-md-6">
+                <h2>Avatar generat</h2>
+                <div id="result" class="avatar">
+                    <img src="C:\\Users\\Narcis Navarro\\Desktop\\DAM2\\MP16\\NarcisNavarro_M16\\PROJECTE_DEF\\Avatars\\imgDef.png" alt="Avatar por defecto" style="width: 100%; height: 100%; border-radius: 50%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generateAvatar').addEventListener('click', function () {
+        const avatarColor = document.getElementById('avatarColor').value;
+        const avatarImage = document.getElementById('avatarImage').value;
+
+        // Guardar la información en las cookies
+        document.cookie = `avatarColor=${avatarColor}`;
+        document.cookie = `avatarImage=${avatarImage}`;
+
+        const result = document.getElementById('result');
+        result.style.backgroundColor = avatarColor;
+
+        if (avatarImage) {
+            result.style.backgroundImage = `url(${avatarImage})`;
+        } else {
+            result.style.backgroundImage = 'none';
+        }
+    });
+    </script>
+</body>
+</html>

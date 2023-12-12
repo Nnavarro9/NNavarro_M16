@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTE EPI PROMOCIÓ DE LA SALUT</title>
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('/images/material aillament2.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .button-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .button-container a {
+            display: block;
+            margin-bottom: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container a:hover {
+            transform: scale(1.1);
+        }
+        
+        .button-container a img {
+            width: 100px; /* Aumentamos el ancho de las imágenes de los botones */
+            height: 60px; /* Aumentamos la altura de las imágenes de los botones */
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <a href="/login">
+            <img src="/images/BInici2.png" alt="INICI">
+        </a>
+        <a href="/registre">
+            <img src="/images/Bregistre2.png" alt="REGISTRE">
+        </a>
+    </div>
+
+    <!-- Agregar la referencia a la librería de Bootstrap y jQuery (necesario para algunas funcionalidades) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>
