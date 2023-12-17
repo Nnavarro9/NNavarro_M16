@@ -11,10 +11,10 @@ const port = 3010;
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
-  host: '192.168.1.225',
-  user: 'narcis',
-  password: 'narcis1234',
-  database: 'M16_narcis',
+  host: 'localhost', //IP: 192.168.1.225
+  user: 'root', //User: narcis
+  password: 'Pa$$word98..', //Pass: narcis1234
+  database: 'M16_Project',//DB: M16_narcis
 });
 
 // Configuración del motor de plantillas EJS
