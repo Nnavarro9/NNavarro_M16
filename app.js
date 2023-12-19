@@ -9,12 +9,30 @@ const app = express();
 const port = 3010;
 // Utilizar body-parser para analizar los datos del formulario
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
   host: 'localhost', //IP: 192.168.1.225
-  user: 'root', //User: narcis
-  password: 'Pa$$word98..', //Pass: narcis1234
+  user: 'narcis', //User: narcis
+  password: 'narcis1234', //Pass: narcis1234
   database: 'M16_Project',//DB: M16_narcis
+});
+
+// Configuración de multer para gestionar la carga de archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 50 * 1024 * 1024, // límite de tamaño en bytes (50 MB)
+  },
 });
 
 // Configuración del motor de plantillas EJS
@@ -25,6 +43,47 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => {
   res.render('index');
 });
+app.post('/upload', upload.single('documento'), (req, res) => {
+  const { nom_modul, nom_doc, descripcio } = req.body;
+  const documentoPath = req.file.path;
+
+  fs.readFile(documentoPath, (err, data) => {
+    if (err) {
+      // Manejar el error
+      console.error('Error al leer el archivo:', err);
+      return res.status(500).json({ mensaje: 'Error al leer el archivo.' });
+    }
+
+    // Insertar en la base de datos después de leer el archivo
+    db.query(
+      'INSERT INTO arxius (nom_modul, nom, descripcio, arxiu) VALUES (?, ?, ?, ?)',
+      [nom_modul, nom_doc, descripcio, data],
+      (err, result) => {
+        if (err) {
+          // Manejar el error
+          console.error('Error al insertar en la base de datos:', err);
+          return res.status(500).json({ mensaje: 'Error al insertar en la base de datos.' });
+        }
+
+        res.redirect('/?mensaje=Documento%20subido%20correctamente');
+      }
+    );
+
+    // Eliminar el archivo después de la inserción en la base de datos
+    fs.unlinkSync(documentoPath);
+  });
+});
+   // Ruta para mostrar todas las imágenes
+ app.get('/vuereM1', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('vuereM1', { arxius: results });
+  });
+});
+
 
 // Ruta para la página de login
 app.get('/login', (req, res) => {
@@ -79,6 +138,10 @@ app.get('/registre', (req, res) => {
 
   app.get('/casospract', (req, res) => {
     res.render('casospract');
+  });
+
+  app.get('/pujar', (req, res) => {
+    res.render('pujar');
   });
 //FUNCIONS BD 
 // Registrament Usaris
