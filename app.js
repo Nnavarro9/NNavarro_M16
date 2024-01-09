@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
-  host: 'localhost', //IP: nodejsMysql_db
+  host: 'nodejsMysql_db', //IP: nodejsMysql_db
   user: 'root', //User: narcis
   password: 'Pa$$word98..', //Pass: narcis1234
   database: 'projectem16',//DB: M16_narcis
