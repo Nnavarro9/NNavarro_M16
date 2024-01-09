@@ -12,10 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
-  host: 'nodejsMysql_db', //IP: nodejsMysql_db
+  host: 'localhost', //IP: nodejsMysql_db
   user: 'root', //User: narcis
   password: 'Pa$$word98..', //Pass: narcis1234
-  database: 'projectem16',//DB: M16_narcis
+  database: 'M16_narcis',//DB: M16_narcis
 });
 
 // Configuración de multer para gestionar la carga de archivos
