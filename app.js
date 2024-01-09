@@ -12,10 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
-  host: 'localhost', //IP: 192.168.1.225
-  user: 'narcis', //User: narcis
-  password: 'narcis1234', //Pass: narcis1234
-  database: 'M16_Project',//DB: M16_narcis
+  host: 'localhost', //IP: nodejsMysql_db
+  user: 'root', //User: narcis
+  password: 'Pa$$word98..', //Pass: narcis1234
+  database: 'projectem16',//DB: M16_narcis
 });
 
 // Configuración de multer para gestionar la carga de archivos
@@ -65,7 +65,9 @@ app.post('/upload', upload.single('documento'), (req, res) => {
           return res.status(500).json({ mensaje: 'Error al insertar en la base de datos.' });
         }
 
-        res.redirect('/?mensaje=Documento%20subido%20correctamente');
+        // Determinar la ruta de redirección según el módulo
+        let redirectPath = `/veure${nom_modul}`;
+        res.redirect(`${redirectPath}?mensaje=Documento%20subido%20correctamente`);
       }
     );
 
@@ -74,13 +76,86 @@ app.post('/upload', upload.single('documento'), (req, res) => {
   });
 });
    // Ruta para mostrar todas las imágenes
- app.get('/vuereM1', (req, res) => {
+ app.get('/veureM1', (req, res) => {
   // Obtener todas las imágenes de la base de datos
   db.query('SELECT * FROM arxius', (err, results) => {
     if (err) throw err;
 
    // Renderizar la página verImagenes.html y pasar los resultados de la consulta
-   res.render('vuereM1', { arxius: results });
+   res.render('veureM1', { arxius: results });
+  });
+});
+
+app.get('/veureM2', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM2', { arxius: results });
+  });
+});
+app.get('/veureM3', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM3', { arxius: results });
+  });
+});
+app.get('/veureM4', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM4', { arxius: results });
+  });
+});
+app.get('/veureM5', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM5', { arxius: results });
+  });
+});
+app.get('/veureM6', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM6', { arxius: results });
+  });
+});
+app.get('/veureM7', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM7', { arxius: results });
+  });
+});
+app.get('/veureM8', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM8', { arxius: results });
+  });
+});
+app.get('/veureM10', (req, res) => {
+  // Obtener todas las imágenes de la base de datos
+  db.query('SELECT * FROM arxius', (err, results) => {
+    if (err) throw err;
+
+   // Renderizar la página verImagenes.html y pasar los resultados de la consulta
+   res.render('veureM10', { arxius: results });
   });
 });
 
