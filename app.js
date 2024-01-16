@@ -12,9 +12,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
-  host: 'localhost', //IP: nodejsMysql_db
-  user: 'root', //User: narcis
-  password: 'Pa$$word98..', //Pass: narcis1234
+  host: 'nodejsMysql_db', //IP: nodejsMysql_db
+  user: 'narcis', //User: narcis
+  password: 'narcis1234', //Pass: narcis1234
   database: 'M16_narcis',//DB: M16_narcis
 });
 
@@ -207,8 +207,20 @@ app.get('/registre', (req, res) => {
     res.render('jocs');
   });
 
-  app.get('/flour', (req, res) => {
-    res.render('flour');
+  app.get('/fluor', (req, res) => {
+    res.render('fluor');
+  });
+
+  app.get('/act_fl1', (req, res) => {
+    res.render('act_fl1');
+  });
+
+  app.get('/act_fl2', (req, res) => {
+    res.render('act_fl2');
+  });
+
+  app.get('/pagConstruccio', (req, res) => {
+    res.render('pagConstruccio');
   });
 
   app.get('/casospract', (req, res) => {
@@ -220,46 +232,15 @@ app.get('/registre', (req, res) => {
   });
 //FUNCIONS BD 
 // Registrament Usaris
- // Ruta para el registro de usuarios
-app.post('/registrarUsuario', (req, res) => {
-  console.log('Ruta /registrarUsuario ejecutada');
-  const { nom_usuari, correu, contrasenya } = req.body;
-
-  // Verificar si los campos están vacíos
-  if (!nom_usuari || !correu || !contrasenya) {
-      return res.status(400).json({ mensaje: 'Si us plau, completi tots els camps ' });
-  }
-
-  // Verificar si el nombre de usuario o el correo ya existen en la base de datos
-  db.query(
-      'INSERT INTO usuari (nom_usuari, correu, contrasenya) VALUES (?, ?, ?)',
-      [nom_usuari, correu, contrasenya],
-      (err, result) => {
-          if (err) {
-              console.error(err);
-              if (err.code === 'ER_DUP_ENTRY') {
-                  // Clave primaria duplicada (nombre de usuario o correo ya existen)
-                  return res.status(400).json({ error: 'usuario_existente', mensaje: 'El nom de usuari o correo ja existe.' });
-              } else {
-                  return res.status(500).json({ mensaje: 'Error al registrar el usuario.' });
-              }
-          }
-          res.json({ mensaje: 'Usuari registrat correctamente.' });
-      }
-  );
-});
-
-
-
-// Validacio de Usuari
+// Validacion de Usuario
 app.post('/verificarUsuario', (req, res) => {
   console.log('Ruta /verificarUsuario ejecutada');
   const { nom_usuari, contrasenya } = req.body;
 
   // Realizar la consulta para verificar el usuario y contraseña
   db.query(
-      'SELECT * FROM usuari WHERE nom_usuari = ? AND contrasenya = ?',
-      [nom_usuari, contrasenya],
+      'SELECT * FROM usuari WHERE nom_usuari = ?',
+      [nom_usuari],
       (err, results) => {
           if (err) {
               console.error(err);
@@ -269,6 +250,49 @@ app.post('/verificarUsuario', (req, res) => {
           // Verificar si hay resultados
           const existe = results.length > 0;
           res.json({ existe });
+      }
+  );
+});
+
+// Registro de Usuario
+app.post('/registrarUsuario', (req, res) => {
+  console.log('Ruta /registrarUsuario ejecutada');
+  const { nom_usuari, correu, contrasenya } = req.body;
+
+  // Verificar si los campos están vacíos
+  if (!nom_usuari || !correu || !contrasenya) {
+      return res.status(400).json({ mensaje: 'Si us plau, completi tots els camps ' });
+  }
+
+  // Verificar si el usuario ya está registrado
+  db.query(
+      'SELECT * FROM usuari WHERE nom_usuari = ?',
+      [nom_usuari],
+      (err, results) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ mensaje: 'Error al verificar el usuario.' });
+          }
+
+          // Verificar si el usuario ya existe
+          const usuarioExistente = results.length > 0;
+
+          if (usuarioExistente) {
+              return res.status(400).json({ error: 'usuario_existente', mensaje: 'El nom de usuari ja existe.' });
+          }
+
+          // Si el usuario no existe, proceder con el registro
+          db.query(
+              'INSERT INTO usuari (nom_usuari, correu, contrasenya) VALUES (?, ?, ?)',
+              [nom_usuari, correu, contrasenya],
+              (err, result) => {
+                  if (err) {
+                      console.error(err);
+                      return res.status(500).json({ mensaje: 'Error al registrar el usuario.' });
+                  }
+                  res.json({ mensaje: 'Usuari registrat correctamente.' });
+              }
+          );
       }
   );
 });
