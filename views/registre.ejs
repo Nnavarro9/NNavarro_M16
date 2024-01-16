@@ -143,7 +143,8 @@
    
     <!-- ... -->
     <script>
-       function registrarUsuario() {
+       
+function registrarUsuario() {
     console.log('Entrando en la función registrarUsuario');
     event.preventDefault(); // Evitar la redirección automática
     if (validarCampos()) {
@@ -151,25 +152,52 @@
         const correo = document.getElementById("correo").value;
         const password = document.getElementById("password").value;
 
-        // Enviar datos al servidor para registrar el usuario
-        $.post('/registrarUsuario', { nom_usuari: nombre, correu: correo, contrasenya: password }, function (data) {
-            console.log('Respuesta del servidor:', data);
+        // Enviar datos al servidor para verificar si el correo ya existe
+        $.post('/verificarUsuario', { nom_usuari: nombre, contrasenya: password }, function (data) {
+            console.log('Respuesta del servidor (verificarUsuario):', data);
 
-            if (data && data.error && data.error.includes('usuario_existente')) {
-                // Mostrar un alert si el usuario ya existe
-                alert('El nom de usuari o correo ja existeix. Si us plau, escull un altre.');
+            if (data && data.existe) {
+                // Mostrar mensaje si el usuario ya existe
+                alert('El nom de usuari ja existeix. Si us plau, escull un altre.');
             } else {
-                alert(data.mensaje);
-                // Redirigir a la página de login u otra página si es necesario
-                window.location.href = '/login';
-            }
+                // Usuario no existe, proceder con la verificación del correo
+                $.post('/verificarCorreo', { correu: correo }, function (dataCorreo) {
+                    console.log('Respuesta del servidor (verificarCorreo):', dataCorreo);
 
+                    if (dataCorreo && dataCorreo.existe) {
+                        // Mostrar un alert si el correo ya existe
+                        alert('El correu ja existeix. Si us plau, escull un altre.');
+                    } else {
+                        // Correo no existe, proceder con el registro
+                        $.post('/registrarUsuario', { nom_usuari: nombre, correu: correo, contrasenya: password }, function (dataRegistro) {
+                            console.log('Respuesta del servidor (registrarUsuario):', dataRegistro);
+
+                            // Limpiar campos si el registro fue exitoso
+                            document.getElementById("nombre").value = "";
+                            document.getElementById("correo").value = "";
+                            document.getElementById("password").value = "";
+
+                            alert(dataRegistro.mensaje);
+                            // Redirigir a la página de login u otra página si es necesario
+                            window.location.href = '/login';
+                        })
+                        .fail(function (errRegistro) {
+                            console.error('Error en la llamada AJAX (registrarUsuario):', errRegistro);
+                        });
+                    }
+                })
+                .fail(function (errCorreo) {
+                    console.error('Error en la llamada AJAX (verificarCorreo):', errCorreo);
+                });
+            }
         })
-        .fail(function (err) {
-            console.error('Error en la llamada AJAX:', err);
+        .fail(function (errUsuario) {
+            console.error('Error en la llamada AJAX (verificarUsuario):', errUsuario);
         });
     }
 }
+    </script>
+
     </script>
 <!-- ... -->
 </body>
