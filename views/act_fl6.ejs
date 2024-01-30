@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL_ACT6</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('/Jocs/FLUOR/7Background.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .button-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+
+        .button-container-main a img {
+            max-width: 500px; /* Ajusta el valor según tus necesidades */
+            max-height: 500px; /* Ajusta el valor según tus necesidades */
+        }
+
+        .button-container-main {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: flex; /* Para que los botones estén en una fila */
+            flex-direction: column; /* Para que los botones estén en una columna */
+            align-items: flex-end; /* Para alinear los botones a la derecha de la columna */
+        }
+
+        .button-container-main a {
+            display: inline-block;
+            transition: transform 0.2s;
+            margin: 10px 0; /* Espaciado entre botones */
+            position: relative;
+        }
+
+        .button-container-main a:hover {
+            transform: scale(1.1);
+        }
+
+        .img-zoom img:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+
+        .img-zoom a {
+            text-decoration: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            outline: none;
+        }
+
+        .arrow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Para que no interfiera con los eventos del botón */
+            z-index: -1; /* Coloca las líneas detrás de los botones */
+        }
+
+        .arrow {
+            position: absolute;
+            z-index: -1;
+        }
+
+        /* Estilo para la flecha hacia abajo */
+        .arrow line {
+            stroke: black;
+            stroke-width: 4;
+        }
+       #A{
+        position: relative;
+            top: 400px;
+            right: 900px;    
+        }
+        #B{
+        position: relative;
+            top: 425px;
+            right: 900px;       
+        }
+        #C{
+        position: relative;
+            top: 450px;
+            right: 900px;    
+        }
+        #X{
+        position: relative;
+            top: -25px;
+            left: 0px;    
+        }
+        #Y{
+        position: relative;
+            top: 0px;
+            left: 0px;    
+        }
+        #Z{
+            position: relative;
+            top: 25px;
+            left: 0px; 
+        }
+        #torn{
+            visibility: hidden;
+        }
+
+        .arrow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .arrow {
+            position: absolute;
+            z-index: 10;
+        }
+
+        .arrow line {
+            stroke: black;
+            stroke-width: 4;
+        }
+
+        .follow-line {
+            stroke: black;
+            stroke-width: 10;
+        }
+        #F8{
+            position: relative;
+            bottom: 565px;
+            right: 10px;
+        }
+    </style>
+    <link rel="icon" href="/Images/material aillament2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/Images/material aillament2.png" type="image/x-icon">
+</head>
+<body>
+
+    <div class="button-container">
+        <!-- Botón en la posición inicial -->
+        <a href="#" class="button" id="torn">
+            <img src="/Jocs/botoEnerereGirat.png" alt="INICI">
+        </a>
+    </div>
+
+    <div class="container mt-5">
+        <div class="button-container-main">
+            <svg class="arrow-container">
+                <!-- Flecha de conexión entre A y X -->
+                <line x1="0" y1="0" x2="0" y2="0" class="arrow" id="arrowAX"/>
+                <!-- Flecha de conexión entre B y Y -->
+                <line x1="0" y1="0" x2="0" y2="0" class="arrow" id="arrowBY"/>
+                <!-- Flecha de conexión entre C y Z -->
+                <line x1="0" y1="0" x2="0" y2="0" class="arrow" id="arrowCZ"/>
+            </svg>
+            
+            <!-- Modifica los eventos onclick -->
+            <a href="#1" class="img-zoom btn btn-link" id="A" onclick="startFollowing('A')">
+                <img src="/Jocs/FLUOR/BotoA.png" alt="M1">
+            </a>
+            <a href="#2" class="img-zoom btn btn-link" id="B" onclick="startFollowing('B')">
+                <img src="/Jocs/FLUOR/BotoB.png" alt="M1">
+            </a>
+            <a href="#3" class="img-zoom btn btn-link" id="C" onclick="startFollowing('C')">
+                <img src="/Jocs/FLUOR/BotoC.png" alt="M1">
+            </a>
+            <a href="#4" class="img-zoom btn btn-link" id="X" onclick="dropArrow('X')">
+                <img src="/Jocs/FLUOR/BotoX.png" alt="M1">
+            </a>
+            <a href="#5" class="img-zoom btn btn-link" id="Y" onclick="dropArrow('Y')">
+                <img src="/Jocs/FLUOR/BotoY.png" alt="M1">
+            </a>
+            <a href="#6" class="img-zoom btn btn-link" id="Z" onclick="dropArrow('Z')">
+                <img src="/Jocs/FLUOR/BotoZ.png" alt="M1">
+            </a>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="button-container-main">
+            <a href="/act_fl7" id="F8">
+                <img src="/Jocs/botoEnerereGirat.png" alt="INICI">
+            </a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Ajusta las líneas de flecha al cargar la página
+        document.addEventListener("DOMContentLoaded", function() {
+            adjustArrow("A", "X", "arrowAX");
+            adjustArrow("B", "Y", "arrowBY");
+            adjustArrow("C", "Z", "arrowCZ");
+        });
+
+        // Función para iniciar el seguimiento de la flecha
+        function startFollowing(buttonId) {
+            const arrowId = `arrow${buttonId}X`;
+            const followArrow = document.getElementById(arrowId);
+
+            function updateLinePosition(event) {
+                const x = event.clientX + window.scrollX;
+                const y = event.clientY + window.scrollY;
+
+                followArrow.setAttribute("x1", x);
+                followArrow.setAttribute("y1", y);
+            }
+
+            document.addEventListener("mousemove", updateLinePosition);
+
+            document.addEventListener("click", function stopFollowing() {
+                document.removeEventListener("mousemove", updateLinePosition);
+                document.removeEventListener("click", stopFollowing);
+            });
+        }
+
+        // Función para soltar la flecha (asociar con otro botón)
+        function dropArrow(targetButtonId) {
+            const arrowId = `arrow${targetButtonId}`;
+            const followArrow = document.getElementById(arrowId);
+
+            // Elimina la posición actual
+            followArrow.removeAttribute("x2");
+            followArrow.removeAttribute("y2");
+
+            // Obtén la posición del botón de destino
+            const targetButton = document.getElementById(targetButtonId);
+            const targetRect = targetButton.getBoundingClientRect();
+            const x2 = targetRect.left + window.scrollX;
+            const y2 = targetRect.top + window.scrollY;
+
+            followArrow.setAttribute("x2", x2);
+            followArrow.setAttribute("y2", y2);
+        }
+
+        // Ajusta la posición de las líneas de flecha con coordenadas relativas
+        function adjustArrow(fromId, toId, arrowId) {
+            const fromButton = document.getElementById(fromId);
+            const toButton = document.getElementById(toId);
+            const arrow = document.getElementById(arrowId);
+
+            const fromRect = fromButton.getBoundingClientRect();
+            const toRect = toButton.getBoundingClientRect();
+
+            const x1 = fromRect.right + window.scrollX;
+            const y1 = fromRect.bottom + window.scrollY;
+            const x2 = toRect.left + window.scrollX;
+            const y2 = toRect.top + window.scrollY;
+
+            arrow.setAttribute("x1", x1);
+            arrow.setAttribute("y1", y1);
+            arrow.setAttribute("x2", x2);
+            arrow.setAttribute("y2", y2);
+        }
+    </script>
+</body>
+</html>

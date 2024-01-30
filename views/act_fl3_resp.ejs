@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FL_ACT3_RESP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+       body {
+            background-image: url('/Jocs/FLUOR/4Background.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .button-container-main a img {
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        .button-container-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin-top: 50px;
+        }
+
+        .button-container-main a {
+            display: inline-block;
+            transition: transform 0.2s;
+            margin: 10px 0;
+        }
+
+        .button-container-main a:hover {
+            transform: scale(1.1);
+        }
+
+        .img-zoom img:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+
+        .img-zoom a {
+            text-decoration: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            outline: none;
+        }
+
+        #boton1, #boton2, #boton3 {
+            position: relative;
+            top:300px;
+            left: 0;
+        }
+
+        #next {
+            position: relative;
+            top:10px;
+            left: 600px;
+        }
+    </style>
+    <link rel="icon" href="/Images/material aillament2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/Images/material aillament2.png" type="image/x-icon">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="button-container-main d-flex-center">
+            <% botones.forEach(boton => { %>
+                <a href="/act_fl3" id="<%= boton.id %>">
+                  <% if (boton.data && boton.data.imagen instanceof Buffer) { %>
+                    <img src="<%= 'data:image/png;base64,' + boton.data.imagen.toString('base64') %>" alt="<%= boton.alt %>">
+                  <% } else { %>
+                    <p>Error: No se pudo cargar la imagen</p>
+                  <% } %>
+                </a>
+              <% }); %>
+              <div class="button-container-main">
+                <a href="/act_fl4"id="next">
+                    <img src="/Jocs/botoEnerereGirat.png" alt="INICI">
+                </a>
+            </div>
+      </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para cargar imágenes desde la base de datos en los botones
+        function cargarImagenesDesdeBaseDeDatos(botones) {
+         botones.forEach(boton => {
+        // Asignar la imagen del botón desde la carpeta public/uploads
+        $(`#${boton.id} img`).attr('src', `/public/uploads/${boton.data.imagenIndex}.png`);
+        $(`#${boton.id} img`).attr('alt', boton.alt);
+    });
+}
+    
+        // Función para obtener un índice aleatorio diferente de los existentes
+        function obtenerIndiceAleatorio(excluidos, max) {
+            let indice = Math.floor(Math.random() * max);
+            while (excluidos.includes(indice)) {
+                indice = Math.floor(Math.random() * max);
+            }
+            return indice;
+        }
+    
+        // Función para cargar imágenes aleatorias en los botones
+        function cargarImagenesAleatorias() {
+            const botones = [
+                { id: 'boton1', alt: 'RESP1' },
+                { id: 'boton2', alt: 'RESP2' },
+                { id: 'boton3', alt: 'RESP3' },
+            ];
+    
+            botones.forEach(boton => {
+                const excluidos = botones.filter(b => b.id !== boton.id).map(b => b.imagenIndex);
+                const imagenIndex = obtenerIndiceAleatorio(excluidos, botones.length);
+    
+                // Guardar el índice de la imagen asignada para futuras exclusiones
+                boton.imagenIndex = imagenIndex;
+            });
+    
+            // Cargar imágenes desde la base de datos en lugar de aleatorias
+            cargarImagenesDesdeBaseDeDatos(botones);
+        }
+    
+        // Cargar imágenes aleatorias al cargar la página
+        $(document).ready(function () {
+            cargarImagenesAleatorias();
+        });
+    </script>
+</body>
+</html>
+

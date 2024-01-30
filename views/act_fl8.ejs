@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL_ACT8</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            background-image: url('/Jocs/FLUOR/9Background.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0; /* Elimina el margen predeterminado del cuerpo */
+            overflow: hidden; /* Evita el desbordamiento horizontal */
+        }
+
+        /* Contenedor para el botón de retorno en la esquina superior izquierda */
+        .button-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* Contenedor principal para el botón de inicio en la esquina inferior derecha */
+        .button-container-main {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column; /* Alinea los botones en una columna */
+            align-items: center; /* Centra los botones horizontalmente */
+            gap: 10px; /* Espaciado entre los botones */
+        }
+
+        /* Estilos para las cajas marrones izquierda y derecha */
+        .brown-box {
+            position: fixed;
+            top: 200px;
+            height: 30%;
+            width: 200px; /* Ancho de las cajas marrones */
+           
+           
+        }
+
+        .brown-box.Beneficis {
+            left: 300px;
+        }
+
+        .brown-box.Inconvenients {
+            right: 300px;
+        }
+
+        /* Estilo adicional para el botón de retorno */
+        .button-container a {
+            display: inline-block;
+            transition: transform 0.2s;
+            z-index: 1; /* Asegura que el botón esté sobre la caja marrón izquierda */
+        }
+
+        .button-container a:hover {
+            transform: scale(1.1);
+        }
+
+        .img-zoom img:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+
+        .img-zoom a {
+            text-decoration: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            cursor: grab; /* Cambia el cursor al hacer clic y arrastrar */
+        }
+
+        /* Estilos para los enlaces en la parte inferior */
+        .button-container-main a {
+            display: inline-block;
+            margin: 0; /* Elimina el margen predeterminado */
+            width: 75px; /* Ancho del botón según tus necesidades */
+            height: 37.5px; /* Altura del botón según tus necesidades */
+            cursor: grab; /* Cambia el cursor al hacer clic y arrastrar */
+        }
+
+        .button-container-main img {
+            width: 205px; /* Ajusta el tamaño de la imagen al tamaño del botón */
+            height: 37.5px; /* Ajusta el tamaño de la imagen al tamaño del botón */
+        }
+
+        .brown-box img.small-image {
+            width: 205px; /* Ajusta el tamaño de la imagen al tamaño del botón */
+            height: 37.5px; /* Ajusta el tamaño de la imagen al tamaño del botón */
+        }
+
+        #END {
+            position: relative;
+            visibility: visible;
+            bottom: 50px;
+            right: 200px;
+
+        }
+
+        #A, #B, #C, #D, #E, #F {
+            position: relative;
+
+            bottom: 50px;
+            right: 800px;
+        } 
+    </style>
+    <link rel="icon" href="/Images/material aillament2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/Images/material aillament2.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Caja marrón izquierda -->
+    <div class="brown-box Beneficis"></div>
+
+    <!-- Caja marrón derecha -->
+    <div class="brown-box Inconvenients"></div>
+
+    <!-- Enlaces en la parte inferior -->
+    <div class="button-container-main">
+        <a href="#1" class="img-zoom btn btn-link" id="A" draggable="true" ondragstart="drag(event)">
+            <img src="/Jocs/FLUOR/relaciona1_benficis.jpg" alt="1_benficis" class="small-button">
+        </a>
+        <a href="#2" class="img-zoom btn btn-link" id="B" draggable="true" ondragstart="drag(event)">
+            <img src="/Jocs/FLUOR/relaciona1_inconv.png" alt="1_inconv" class="small-button">
+        </a>
+        <a href="#3" class="img-zoom btn btn-link" id="C" draggable="true" ondragstart="drag(event)">
+            <img src="/Jocs/FLUOR/relaciona2_benficis.png" alt="2_benficis" class="small-button">
+        </a>
+        <a href="#4" class="img-zoom btn btn-link" id="D" draggable="true" ondragstart="drag(event)">
+            <img src="/Jocs/FLUOR/relaciona2_inconv.png" alt="2_inconv" class="small-button">
+        </a>
+        <a href="#5" class="img-zoom btn btn-link" id="E" draggable="true" ondragstart="drag(event)">
+            <img src="/Jocs/FLUOR/relaciona3_benficis.png" alt="3_benficis" class="small-button">
+        </a>
+        <a href="#6" class="img-zoom btn btn-link" id="F" draggable="true" ondragstart="drag(event)">
+            <img src="/Jocs/FLUOR/relaciona4_benficis.png" alt="4_benficis" class="small-button">
+        </a>
+    </div>
+
+    <!-- Botón de inicio en la esquina inferior derecha -->
+    <div class="container mt-5">
+        <div class="button-container-main">
+            <a href="/jocs" id="END" draggable="false">
+                <img src="/Jocs/botoEnerereGirat.png">
+            </a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        var droppedButtonsCount = 0;
+    // Desactivar el arrastre del botón con id="END"
+document.getElementById("END").addEventListener("dragstart", function (event) {
+    event.preventDefault();
+});
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.alt);
+}
+
+document.addEventListener("dragover", function (event) {
+    event.preventDefault();
+});
+
+document.addEventListener("drop", function (event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("text");
+    var targetElement = document.elementFromPoint(event.clientX, event.clientY);
+
+    // Verificar si el elemento arrastrado tiene el id "A" o "D"
+    if ((data === "1_inconv" || data === "2_inconv") && targetElement.classList.contains("brown-box", "Inconvenients")) {
+        targetElement.appendChild(document.querySelector(`[alt="${data}"]`));
+    }
+    else if ((data === "1_benficis" || data === "2_benficis" || data === "3_benficis" || data === "4_benficis") &&
+        (targetElement.classList.contains("brown-box", "Beneficis"))) {
+        targetElement.appendChild(document.querySelector(`[alt="${data}"]`));
+        // Incrementar el contador al soltar un botón en Beneficis
+        droppedButtonsCount++;
+    }
+    else if ((data === "1_inconv" || data === "2_inconv") && targetElement.classList.contains("brown-box", "Beneficis")) {
+        // Si el elemento es "1_inconv" o "2_inconv" y la caja es "Beneficis", no permitir el drop
+        alert("Relació incorrecte !");
+    } else {
+        alert("Camp incorrecte !");
+    }
+
+    // Verificar si el contador alcanza o supera 6
+    if (droppedButtonsCount >= 6) {
+        // Mostrar el botón con id "END"
+        document.getElementById("END").style.visibility = "visible";
+    }
+});
+</script>
+
+</body>
+</html>

@@ -219,6 +219,112 @@ app.get('/registre', (req, res) => {
     res.render('act_fl2');
   });
 
+  app.get('/act_fl3', (req, res) => {
+    res.render('act_fl3');
+  });
+  app.get('/act_fl3_resp', (req, res) => {
+    // Realizar la consulta de la base de datos para obtener los datos de los botones
+  db.query('SELECT * FROM botons WHERE nomBoto IN (?, ?, ?)', ["Boto1", "Boto2", "Boto3"], (err, queryResult) => {
+    if (err) throw err;
+
+    // Obtener los datos de la pregunta
+    const question = queryResult[0];
+
+    // Organizar las opciones (resultados) de manera aleatoria
+    const resultats = shuffle([
+      { id: 'correctOption', esCorrecta: queryResult[0].encertat, imagen: queryResult[0].imatge },
+      { id: 'wrongOption1', esCorrecta: !queryResult[0].encertat, imagen: queryResult[1].imatge },
+      { id: 'wrongOption2', esCorrecta: !queryResult[0].encertat, imagen: queryResult[2].imatge }
+    ]);
+
+    // Asociar datos a los botones
+    const botones = [
+      { id: 'boton1', alt: 'RESP1', data: resultats[0] },
+      { id: 'boton2', alt: 'RESP2', data: resultats[1] },
+      { id: 'boton3', alt: 'RESP3', data: resultats[2] },
+    ];
+
+    // Generar estilos aleatorios para los botones (ajusta según tus necesidades)
+    const estilosAleatorios = botones.map(boton => ({
+      top: Math.floor(Math.random() * 500) + 'px',
+      left: Math.floor(Math.random() * 1200) + 'px',
+    }));
+
+    // Renderizar la página y pasar los datos de los botones y estilos aleatorios
+    res.render('act_fl3_resp', { question, botones, estilosAleatorios });
+  });
+});
+
+app.get('/act_fl4', (req, res) => {
+  res.render('act_fl4');
+});
+
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+
+  // Mientras queden elementos a mezclar
+  while (currentIndex !== 0) {
+
+    // Seleccionar un elemento sin mezclar
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // E intercambiarlo con el elemento actual
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+app.get('/act_fl4_resp', (req, res) => {
+  // Realizar la consulta de la base de datos para obtener los datos de los botones
+  db.query('SELECT * FROM botons WHERE nomBoto IN (?, ?, ?)', ["Boto4", "Boto5", "Boto6"], (err, queryResult) => {
+    if (err) throw err;
+
+    // Obtener los datos de la pregunta
+    const question = queryResult[0];
+
+    // Organizar las opciones (resultados) de manera aleatoria
+    const resultats = shuffle([
+      { id: 'correctOption', esCorrecta: queryResult[0].encertat, imagen: queryResult[0].imatge },
+      { id: 'wrongOption1', esCorrecta: !queryResult[0].encertat, imagen: queryResult[1].imatge },
+      { id: 'wrongOption2', esCorrecta: !queryResult[0].encertat, imagen: queryResult[2].imatge }
+    ]);
+
+    // Asociar datos a los botones
+    const botones = [
+      { id: 'boton1', alt: 'RESP1', data: resultats[0] },
+      { id: 'boton2', alt: 'RESP2', data: resultats[1] },
+      { id: 'boton3', alt: 'RESP3', data: resultats[2] },
+    ];
+
+    // Generar estilos aleatorios para los botones (ajusta según tus necesidades)
+    const estilosAleatorios = botones.map(boton => ({
+      top: Math.floor(Math.random() * 500) + 'px',
+      left: Math.floor(Math.random() * 1200) + 'px',
+    }));
+
+    // Renderizar la página y pasar los datos de los botones y estilos aleatorios
+    res.render('act_fl4_resp', { question, botones, estilosAleatorios });
+  });
+});
+app.get('/act_fl5', (req, res) => {
+  res.render('act_fl5');
+});
+
+app.get('/act_fl6', (req, res) => {
+  res.render('act_fl6');
+});
+
+app.get('/act_fl7', (req, res) => {
+  res.render('act_fl7');
+});
+
+app.get('/act_fl8', (req, res) => {
+  res.render('act_fl8');
+});
+
+
   app.get('/pagConstruccio', (req, res) => {
     res.render('pagConstruccio');
   });
