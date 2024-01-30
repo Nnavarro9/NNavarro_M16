@@ -206,7 +206,7 @@ app.get('/registre', (req, res) => {
   app.get('/jocs', (req, res) => {
     res.render('jocs');
   });
-
+ //ACTIVITATS FLUOR
   app.get('/fluor', (req, res) => {
     res.render('fluor');
   });
@@ -323,6 +323,52 @@ app.get('/act_fl7', (req, res) => {
 app.get('/act_fl8', (req, res) => {
   res.render('act_fl8');
 });
+//CASOS PRACTICS 
+app.get('/prediontogramas_1', (req, res) => {
+  res.render('prediontogramas_1');
+});
+app.get('/prediontogramas_2', (req, res) => {
+  res.render('prediontogramas_2');
+});
+app.get('/prediontogramas_3', (req, res) => {
+  res.render('prediontogramas_3');
+});
+app.get('/prediontogramas_4', (req, res) => {
+  res.render('prediontogramas_4');
+});
+
+app.get('/prediontogramas_5', (req, res) => {
+  res.render('prediontogramas_5');
+});
+app.get('/prediontogramas_6', (req, res) => {
+  res.render('prediontogramas_6');
+});
+
+app.get('/odontograma_1', (req, res) => {
+  res.render('odontograma_1');
+});
+app.get('/odontograma_2', (req, res) => {
+  res.render('odontograma_2');
+});
+app.get('/odontograma_3', (req, res) => {
+  res.render('odontograma_3');
+});
+app.get('/odontograma_4', (req, res) => {
+  res.render('odontograma_4');
+});
+app.get('/odontograma_5', (req, res) => {
+  res.render('odontograma_5');
+});
+app.get('/odontograma_6', (req, res) => {
+  res.render('odontograma_6');
+});
+app.get('/odontograma_7', (req, res) => {
+  res.render('odontograma_7');
+});
+app.get('/odontograma_8', (req, res) => {
+  res.render('odontograma_8');
+});
+
 
 
   app.get('/pagConstruccio', (req, res) => {
