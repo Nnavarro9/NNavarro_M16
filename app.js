@@ -6,13 +6,13 @@ const multer = require('multer');
 const fs = require('fs');
 const ejs = require('ejs');
 const app = express();
-const port = 3010;
+const port = 33010;
 // Utilizar body-parser para analizar los datos del formulario
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
-  host: 'nodejsMysql_db', //IP: nodejsMysql_db
+  host: 'nodejsMysql_db', //IP: 192.168.1.225 I DINTRE CLASTER: nodejsMysql_db
   user: 'narcis', //User: narcis
   password: 'narcis1234', //Pass: narcis1234
   database: 'M16_narcis',//DB: M16_narcis
@@ -323,6 +323,11 @@ app.get('/act_fl7', (req, res) => {
 app.get('/act_fl8', (req, res) => {
   res.render('act_fl8');
 });
+//VIDEO BOCA INTERACTIVA 
+app.get('/bocaInteract', (req, res) => {
+  res.render('bocaInteract');
+});
+
 //CASOS PRACTICS 
 app.get('/prediontogramas_1', (req, res) => {
   res.render('prediontogramas_1');
@@ -373,6 +378,10 @@ app.get('/odontograma_8', (req, res) => {
 
   app.get('/pagConstruccio', (req, res) => {
     res.render('pagConstruccio');
+  });
+
+  app.get('/pagConstruccioCP', (req, res) => {
+    res.render('pagConstruccioCP');
   });
 
   app.get('/casospract', (req, res) => {
