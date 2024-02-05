@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
-  host: 'nodejsMysql_db', //IP: 192.168.1.225 I DINTRE CLASTER: nodejsMysql_db
+  host: '192.168.1.225', //IP: 192.168.1.225 I DINTRE CLASTER: nodejsMysql_db
   user: 'narcis', //User: narcis
   password: 'narcis1234', //Pass: narcis1234
   database: 'M16_narcis',//DB: M16_narcis
@@ -395,16 +395,15 @@ app.get('/odontograma_8', (req, res) => {
 // Registrament Usaris
 // Validacion de Usuario
 app.post('/verificarUsuario', (req, res) => {
-  console.log('Ruta /verificarUsuario ejecutada');
   const { nom_usuari, contrasenya } = req.body;
 
   // Realizar la consulta para verificar el usuario y contraseña
   db.query(
-      'SELECT * FROM usuari WHERE nom_usuari = ?',
-      [nom_usuari],
+      'SELECT * FROM usuari WHERE nom_usuari = ? AND contrasenya = ?',
+      [nom_usuari, contrasenya],
       (err, results) => {
           if (err) {
-              console.error(err);
+              console.error(err+"Prova verificar !");
               return res.status(500).json({ mensaje: 'Error al verificar el usuario.' });
           }
 
@@ -417,46 +416,34 @@ app.post('/verificarUsuario', (req, res) => {
 
 // Registro de Usuario
 app.post('/registrarUsuario', (req, res) => {
-  console.log('Ruta /registrarUsuario ejecutada');
   const { nom_usuari, correu, contrasenya } = req.body;
 
   // Verificar si los campos están vacíos
   if (!nom_usuari || !correu || !contrasenya) {
-      return res.status(400).json({ mensaje: 'Si us plau, completi tots els camps ' });
+    return res.status(400).json({ mensaje: '' });
   }
 
-  // Verificar si el usuario ya está registrado
+  // Realizar la inserción en la base de datos
   db.query(
-      'SELECT * FROM usuari WHERE nom_usuari = ?',
-      [nom_usuari],
-      (err, results) => {
-          if (err) {
-              console.error(err);
-              return res.status(500).json({ mensaje: 'Error al verificar el usuario.' });
-          }
+    'INSERT INTO usuari (nom_usuari, correu, contrasenya) VALUES (?, ?, ?)',
+    [nom_usuari, correu, contrasenya],
+    (err, result) => {
+        if (err) {
+            console.error(err + "Prova registrar ");
 
-          // Verificar si el usuario ya existe
-          const usuarioExistente = results.length > 0;
+            // Verificar si el error es por clave duplicada (usuario existente)
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ error: 'usuario_existente', mensaje: 'El nom de usuari o correu ja existeix.' });
+            }
 
-          if (usuarioExistente) {
-              return res.status(400).json({ error: 'usuario_existente', mensaje: 'El nom de usuari ja existe.' });
-          }
+            return res.status(500).json({ mensaje: 'Error al registrar el usuario.', error: err.message });
+        }
 
-          // Si el usuario no existe, proceder con el registro
-          db.query(
-              'INSERT INTO usuari (nom_usuari, correu, contrasenya) VALUES (?, ?, ?)',
-              [nom_usuari, correu, contrasenya],
-              (err, result) => {
-                  if (err) {
-                      console.error(err);
-                      return res.status(500).json({ mensaje: 'Error al registrar el usuario.' });
-                  }
-                  res.json({ mensaje: 'Usuari registrat correctamente.' });
-              }
-          );
-      }
+        res.json({ mensaje: 'Usuari registrat correctament.' });
+    }
   );
 });
+
 
 // Ruta para archivos estáticos (CSS, imágenes, etc.)
 app.use(express.static(path.join(__dirname, 'public')));

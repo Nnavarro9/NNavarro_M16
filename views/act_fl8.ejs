@@ -146,7 +146,7 @@
     <!-- Botón de inicio en la esquina inferior derecha -->
     <div class="container mt-5">
         <div class="button-container-main">
-            <a href="/jocs" id="END" draggable="false">
+            <a href="/jocs" id="END">
                 <img src="/Jocs/botoEnerereGirat.png">
             </a>
         </div>
@@ -154,7 +154,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var droppedButtonsCount = 0;
     // Desactivar el arrastre del botón con id="END"
@@ -176,20 +176,27 @@ document.addEventListener("drop", function (event) {
     var targetElement = document.elementFromPoint(event.clientX, event.clientY);
 
     // Verificar si el elemento arrastrado tiene el id "A" o "D"
-    if ((data === "1_inconv" || data === "2_inconv") && targetElement.classList.contains("brown-box", "Inconvenients")) {
+    if ((data === "1_inconv" || data === "2_inconv") && targetElement.classList.contains("brown-box", "Inconvenients")
+    &&(data !== "1_benficis" || data !== "2_benficis" || data !== "3_benficis" || data !== "4_benficis")) {
         targetElement.appendChild(document.querySelector(`[alt="${data}"]`));
     }
     else if ((data === "1_benficis" || data === "2_benficis" || data === "3_benficis" || data === "4_benficis") &&
-        (targetElement.classList.contains("brown-box", "Beneficis"))) {
+        (targetElement.classList.contains("brown-box", "Beneficis"))&& (data !== "1_inconv" || data !== "2_inconv")) {
         targetElement.appendChild(document.querySelector(`[alt="${data}"]`));
         // Incrementar el contador al soltar un botón en Beneficis
         droppedButtonsCount++;
     }
-    else if ((data === "1_inconv" || data === "2_inconv") && targetElement.classList.contains("brown-box", "Beneficis")) {
+    else if ((data === "1_inconv" || data === "2_inconv") && targetElement.classList.contains("brown-box", "Inconvenients")) {
         // Si el elemento es "1_inconv" o "2_inconv" y la caja es "Beneficis", no permitir el drop
-        alert("Relació incorrecte !");
+        Swal.fire({
+             title: "La relació està bè?",
+             icon: "question"
+        });
     } else {
-        alert("Camp incorrecte !");
+        Swal.fire({
+             icon: "error",
+             title: "Camp incorrecte",
+            });
     }
 
     // Verificar si el contador alcanza o supera 6

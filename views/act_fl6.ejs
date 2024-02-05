@@ -112,9 +112,8 @@
         }
 
         .arrow-container {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
+            left: -400px;
             width: 100%;
             height: 100%;
             pointer-events: none;
@@ -124,6 +123,7 @@
         .arrow {
             position: absolute;
             z-index: 10;
+            transform-origin: top center; /* Establecer el origen de la transformación en la parte superior del elemento */
         }
 
         .arrow line {
@@ -133,7 +133,7 @@
 
         .follow-line {
             stroke: black;
-            stroke-width: 10;
+            stroke-width: 15; /* Ajusta el valor según tus necesidades */
         }
         #F8{
             position: relative;
@@ -156,15 +156,9 @@
     <div class="container mt-5">
         <div class="button-container-main">
             <svg class="arrow-container">
-                <!-- Flecha de conexión entre A y X -->
-                <line x1="0" y1="0" x2="0" y2="0" class="arrow" id="arrowAX"/>
-                <!-- Flecha de conexión entre B y Y -->
-                <line x1="0" y1="0" x2="0" y2="0" class="arrow" id="arrowBY"/>
-                <!-- Flecha de conexión entre C y Z -->
-                <line x1="0" y1="0" x2="0" y2="0" class="arrow" id="arrowCZ"/>
+                <!-- Flecha de seguimiento -->
+                <line x1="0" y1="0" x2="0" y2="0" class="arrow follow-line" id="followLine"/>
             </svg>
-            
-            <!-- Modifica los eventos onclick -->
             <a href="#1" class="img-zoom btn btn-link" id="A" onclick="startFollowing('A')">
                 <img src="/Jocs/FLUOR/BotoA.png" alt="M1">
             </a>
@@ -174,13 +168,13 @@
             <a href="#3" class="img-zoom btn btn-link" id="C" onclick="startFollowing('C')">
                 <img src="/Jocs/FLUOR/BotoC.png" alt="M1">
             </a>
-            <a href="#4" class="img-zoom btn btn-link" id="X" onclick="dropArrow('X')">
+            <a href="#4" class="img-zoom btn btn-link" id="X" onclick="startFollowing('X')">
                 <img src="/Jocs/FLUOR/BotoX.png" alt="M1">
             </a>
-            <a href="#5" class="img-zoom btn btn-link" id="Y" onclick="dropArrow('Y')">
+            <a href="#5" class="img-zoom btn btn-link" id="Y" onclick="startFollowing('Y')">
                 <img src="/Jocs/FLUOR/BotoY.png" alt="M1">
             </a>
-            <a href="#6" class="img-zoom btn btn-link" id="Z" onclick="dropArrow('Z')">
+            <a href="#6" class="img-zoom btn btn-link" id="Z" onclick="startFollowing('Z')">
                 <img src="/Jocs/FLUOR/BotoZ.png" alt="M1">
             </a>
         </div>
@@ -195,7 +189,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Ajusta las líneas de flecha al cargar la página
         document.addEventListener("DOMContentLoaded", function() {
@@ -203,46 +197,6 @@
             adjustArrow("B", "Y", "arrowBY");
             adjustArrow("C", "Z", "arrowCZ");
         });
-
-        // Función para iniciar el seguimiento de la flecha
-        function startFollowing(buttonId) {
-            const arrowId = `arrow${buttonId}X`;
-            const followArrow = document.getElementById(arrowId);
-
-            function updateLinePosition(event) {
-                const x = event.clientX + window.scrollX;
-                const y = event.clientY + window.scrollY;
-
-                followArrow.setAttribute("x1", x);
-                followArrow.setAttribute("y1", y);
-            }
-
-            document.addEventListener("mousemove", updateLinePosition);
-
-            document.addEventListener("click", function stopFollowing() {
-                document.removeEventListener("mousemove", updateLinePosition);
-                document.removeEventListener("click", stopFollowing);
-            });
-        }
-
-        // Función para soltar la flecha (asociar con otro botón)
-        function dropArrow(targetButtonId) {
-            const arrowId = `arrow${targetButtonId}`;
-            const followArrow = document.getElementById(arrowId);
-
-            // Elimina la posición actual
-            followArrow.removeAttribute("x2");
-            followArrow.removeAttribute("y2");
-
-            // Obtén la posición del botón de destino
-            const targetButton = document.getElementById(targetButtonId);
-            const targetRect = targetButton.getBoundingClientRect();
-            const x2 = targetRect.left + window.scrollX;
-            const y2 = targetRect.top + window.scrollY;
-
-            followArrow.setAttribute("x2", x2);
-            followArrow.setAttribute("y2", y2);
-        }
 
         // Ajusta la posición de las líneas de flecha con coordenadas relativas
         function adjustArrow(fromId, toId, arrowId) {
@@ -256,12 +210,42 @@
             const x1 = fromRect.right + window.scrollX;
             const y1 = fromRect.bottom + window.scrollY;
             const x2 = toRect.left + window.scrollX;
-            const y2 = toRect.top + window.scrollY;
+            const y2 = toRect.bottom + window.scrollY;
 
             arrow.setAttribute("x1", x1);
             arrow.setAttribute("y1", y1);
             arrow.setAttribute("x2", x2);
             arrow.setAttribute("y2", y2);
+        }
+
+        function startFollowing(buttonId) {
+            const followLine = document.getElementById("followLine");
+            const arrowContainer = document.querySelector(".arrow-container");
+
+            // Configura diferentes tops según el id del botón
+            const topValues = {
+                'A': '600px',
+                'B': '800px',
+                'C': '950px',
+                'X': '0',
+                'Y': '0',
+                'Z': '0',
+            };
+
+            arrowContainer.style.top = topValues[buttonId];
+
+            document.addEventListener("mousemove", function(event) {
+                const x = event.clientX + window.scrollX;
+                const y = event.clientY + window.scrollY;
+
+                followLine.setAttribute("x1", x);
+                followLine.setAttribute("y1", y);
+            });
+
+            document.addEventListener("click", function() {
+                document.removeEventListener("mousemove", updateLinePosition);
+                document.removeEventListener("click", stopFollowing);
+            });
         }
     </script>
 </body>
